@@ -25,6 +25,15 @@ angular.module('app', ['ngRoute', 'ngResource'])
     });
   }])
 
+  // Add this, which uses the "query" method of ngResource to make a GET request
+  // with URL parameters appended (the "query()" function accepts an object of
+  // key/value pairs that maps to the URL params we want to send)
+  .factory('Properties', ['$resource', function($resource){
+    return $resource('/papi/v0/properties', null, {
+      'query': { method:'GET' }
+    });
+  }])
+
   // Controllers
 
   // When we run this controller, we call the "get()" function on Groups
@@ -33,6 +42,20 @@ angular.module('app', ['ngRoute', 'ngResource'])
   .controller('GroupsController', ['$scope', 'Groups', function ($scope, Groups) {
     $scope.groups = Groups.get({}, function(res) {
       $scope.groups = res.data.groups.items;
+    });
+  }])
+
+  // The PropertiesController expects properties called "group" and "contract"
+  // on the URL when it's called (we get this from the $routeParams service module
+  // which we pass to this controller)
+  .controller('PropertiesController', ['$scope', '$routeParams', 'Properties', function ($scope, $routeParams, Properties) {
+    // get the params off the URL
+    var group = $routeParams.group;
+    var contract = $routeParams.contract;
+    // pass the params as an object to API proxy, using "groupId" and "contractId"
+    // since that's what the API expects
+    $scope.properties = Properties.query({groupId: group, contractId: contract}, function(res) {
+      $scope.properties = res.data.properties.items;
     });
   }])
 
@@ -46,4 +69,11 @@ angular.module('app', ['ngRoute', 'ngResource'])
         templateUrl: '/groups.html',
         controller: 'GroupsController'
       })
+
+      // if the browser points to "/properties" we serve up the
+      // properties.html template and run the PropertiesController
+      .when('/properties', {
+        templateUrl: '/properties.html',
+        controller: 'PropertiesController'
+     });
   }]);

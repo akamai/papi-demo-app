@@ -25,5 +25,22 @@
         </li>
       </ul>
     </script>
+    <script type="text/ng-template" id="/properties.html">
+      Search: <input type="text" ng-model="search.propertyName">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Latest Version</th>
+          <th>Staging Version</th>
+          <th>Production Version</th>
+        </tr>
+        <tr ng-repeat="property in properties | filter: search">
+          <td>{{property.propertyName}}</td>
+          <td>{{property.latestVersion}}</td>
+          <td>{{property.stagingVersion}}</td>
+          <td>{{property.productionVersion}}</td>
+        </tr>
+      </table>
+    </script>
 </body>
 </html>
