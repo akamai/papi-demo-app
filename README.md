@@ -8,7 +8,7 @@ For more information about Akamai APIs, see the [{OPEN} Developer Site](https://
 
 ## Quick Install
 
-Clone this repository, then replace the contents of `.edgerc` with your own PAPI credentials:
+Clone this repository, then _create a new file called `.edgerc` in the main directory of the project_ with your own PAPI credentials:
 
 ```plaintext
 [papi]
