@@ -28,6 +28,7 @@ $ npm install
 $ cp node_modules/angular/angular.* public/js/
 $ cp node_modules/angular-route/angular-route.* public/js/
 $ cp node_modules/angular-resource/angular-resource.* public/js/
+$ cp node_modules/angular-loading-bar/build/loading-bar.* public/lib/
 # run server
 $ npm start
 ```
