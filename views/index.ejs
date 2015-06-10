@@ -37,12 +37,17 @@
           <th>Production Version</th>
         </tr>
         <tr ng-repeat="property in properties | filter: search">
+          <td>{{property.propertyName}}</td>
           <td><a href="#/propertyRules/?group={{property.groupId}}&contract={{property.contractId}}&propertyId={{property.propertyId}}&propertyVersion={{property.latestVersion}}">{{property.latestVersion}}</a></td>
           <td><a href="#/propertyRules/?group={{property.groupId}}&contract={{property.contractId}}&propertyId={{property.propertyId}}&propertyVersion={{property.stagingVersion}}">{{property.stagingVersion}}</a></td>
           <td><a href="#/propertyRules/?group={{property.groupId}}&contract={{property.contractId}}&propertyId={{property.propertyId}}&propertyVersion={{property.productionVersion}}">{{property.productionVersion}}</a></td>
-          <td>{{property.productionVersion}}</td>
         </tr>
       </table>
     </script>
+    <script type="text/ng-template" id="/propertyRules.html">
+      Search: <input type="text" ng-model="search.propertyName">
+      {{propertyRules}}
+    </script>
+
 </body>
 </html>

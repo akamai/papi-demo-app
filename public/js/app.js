@@ -34,6 +34,13 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
     });
   }])
 
+  // Same as the Properties factory above but for rules
+  .factory('PropertyRules', ['$resource', function($resource){
+    return $resource('/papi/v0/properties/:propertyId/versions/:propertyVersion/rules', null, {
+      'query': { method:'GET' }
+    });
+  }])
+
   // Controllers
 
   // When we run this controller, we call the "get()" function on Groups
@@ -59,6 +66,21 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
     });
   }])
 
+  // The PropertyRulesController expects properties called "group" and "contract"
+  // and "propertyId" and "propertyVersion"
+  .controller('PropertyRulesController', ['$scope', '$routeParams', 'PropertyRules', function ($scope, $routeParams, PropertyRules) {
+    // get the params off the URL
+    var group = $routeParams.group;
+    var contract = $routeParams.contract;
+    var propertyId = $routeParams.propertyId;
+    var propertyVersion = $routeParams.propertyVersion;
+    // pass the params as an object to API proxy, using "groupId" and "contractId"
+    // since that's what the API expects
+    $scope.propertyRules = PropertyRules.query({groupId: group, contractId: contract, propertyId: propertyId, propertyVersion: propertyVersion}, function(res) {
+      $scope.propertyRules = res.data.rules;
+    });
+  }])
+
   // Routes
 
   // When a browser points to the root of our server, we serve up the
@@ -75,5 +97,13 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
       .when('/properties', {
         templateUrl: '/properties.html',
         controller: 'PropertiesController'
+     })
+
+      // if the browser points to "/properties/rules" we serve up the
+      // properties.html template and run the PropertiesController
+      .when('/propertyRules', {
+        templateUrl: '/propertyRules.html',
+        controller: 'PropertyRulesController'
      });
+
   }]);
