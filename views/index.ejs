@@ -45,8 +45,32 @@
       </table>
     </script>
     <script type="text/ng-template" id="/propertyRules.html">
-      Search: <input type="text" ng-model="search.propertyName">
-      {{propertyRules}}
+    <h1>Behaviors</h1>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Options</th>
+        </tr>
+        <tr ng-repeat="behavior in propertyRules.behaviors">
+          <td>{{behavior.name}}</td>
+          <td>
+            <ul ng-repeat="(key, val) in behavior.options">
+              <li ng-switch on="typeOf(val)">
+                  <span ng-switch-when="object">
+                    <span><strong>{{key}}</strong>:</span>
+                      <ul ng-repeat="(key2, val2) in val">
+                        <li><strong>{{key2}}</strong>: {{val2}}</li>
+                      </ul>
+                  </span>
+                  <span ng-switch-default>
+                    <span><strong>{{key}}</strong>: {{val}}</span>
+                  </span>
+              </li>
+
+            </ul>
+          </td>
+        </tr>
+      </table>
     </script>
 
 </body>

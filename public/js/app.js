@@ -79,6 +79,9 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
     $scope.propertyRules = PropertyRules.query({groupId: group, contractId: contract, propertyId: propertyId, propertyVersion: propertyVersion}, function(res) {
       $scope.propertyRules = res.data.rules;
     });
+    $scope.typeOf = function(value) {
+      return typeof value;
+    };
   }])
 
   // Routes
