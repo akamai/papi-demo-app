@@ -64,6 +64,8 @@
                   </span>
                   <span ng-switch-default>
                     <span><strong>{{key}}</strong>: {{val}}</span>
+                    <select name="{{key}}" ng-if="behavior.selectOptions && behavior.selectOptions[key]" ng-model="behavior.options[key]" ng-options="v for v in behavior.selectOptions[key]">
+                    </select>
                   </span>
               </li>
 

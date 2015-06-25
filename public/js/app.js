@@ -69,6 +69,20 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
   // The PropertyRulesController expects properties called "group" and "contract"
   // and "propertyId" and "propertyVersion"
   .controller('PropertyRulesController', ['$scope', '$routeParams', 'PropertyRules', function ($scope, $routeParams, PropertyRules) {
+    $scope.options = {
+      caching: {
+        behavior: [
+          'no-store',
+          'bypass-cache'
+        ]
+      },
+      origin: {
+        'http_port': [
+          '80',
+          '8080'
+        ]
+      }
+    };
     // get the params off the URL
     var group = $routeParams.group;
     var contract = $routeParams.contract;
@@ -78,7 +92,14 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
     // since that's what the API expects
     $scope.propertyRules = PropertyRules.query({groupId: group, contractId: contract, propertyId: propertyId, propertyVersion: propertyVersion}, function(res) {
       $scope.propertyRules = res.data.rules;
+      for (key in $scope.options) {
+        // find the index of the subobject in the propertyRules collection matching our key
+        var index = $scope.propertyRules.behaviors.map(function(el) { return el.name; }).indexOf(key);
+        // set a new selectOptions object in that subobject containing our new values
+        $scope.propertyRules.behaviors[index].selectOptions = $scope.options[key];
+      }
     });
+
     $scope.typeOf = function(value) {
       return typeof value;
     };
