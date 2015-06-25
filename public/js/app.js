@@ -37,7 +37,8 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
   // Same as the Properties factory above but for rules
   .factory('PropertyRules', ['$resource', function($resource){
     return $resource('/papi/v0/properties/:propertyId/versions/:propertyVersion/rules', null, {
-      'query': { method:'GET' }
+      'query': { method:'GET' },
+      'put': { method:'PUT' }
     });
   }])
 
@@ -102,6 +103,22 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
 
     $scope.typeOf = function(value) {
       return typeof value;
+    };
+
+    // called when we click the save button, fires off our PUT request
+    $scope.save = function() {
+      // create a temp object where we store our modified property rules,
+      // but then delete all instances of selectOptions and uuid since that will cause
+      // PAPI to throw an error due to receiving an unexpected object
+      var payload = $scope.propertyRules;
+      delete $scope.propertyRules.uuid;
+      for (var i=0; i < $scope.propertyRules.behaviors.length; i++) {
+        delete $scope.propertyRules.behaviors[i].selectOptions;
+        delete $scope.propertyRules.behaviors[i].uuid;
+      }
+      PropertyRules.put({ groupId: group, contractId: contract, propertyId: propertyId, propertyVersion: propertyVersion }, {
+        rules: payload
+      });
     };
   }])
 
