@@ -35,4 +35,25 @@ router.get('/', function(req, res, next) {
   });  
 });  
   
+/* handle a PUT request to papi/v0/whatever-we-want */
+router.put('/', function(req, res, next) {
+  var eg = req.app.get('eg');
+  // call the endpoint (e.g., "papi/v0/groups/")
+  eg.auth({
+    'path': req.originalUrl, // the endpoint we got from the documentation
+    'method': 'PUT', // our method type, also from the docs
+    'headers': {
+      'Content-Type': 'application/vnd.akamai.papirules.latest+json'
+    }, // we need to include the Content-Type header noted in the docs
+    'body': JSON.stringify(req.body) // pass along the body of our request
+  });
+  // actually kick off our request to the API server
+  eg.send(function(data, response) {
+    res.json({
+      status: response.statusCode,
+      data: JSON.parse(data)
+    });
+  });
+});
+
 module.exports = router;  
