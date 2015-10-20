@@ -69,7 +69,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar', 'angular-
 
   // The PropertyRulesController expects properties called "group" and "contract"
   // and "propertyId" and "propertyVersion"
-  .controller('PropertyRulesController', ['$scope', '$routeParams', 'PropertyRules', '$log', function ($scope, $routeParams, PropertyRules, $log) {
+  .controller('PropertyRulesController', ['$scope', '$routeParams', 'PropertyRules', function ($scope, $routeParams, PropertyRules) {
     $scope.options = {
       caching: {
         behavior: [
