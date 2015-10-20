@@ -93,7 +93,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar', 'angular-
     // since that's what the API expects
     $scope.propertyRules = PropertyRules.query({groupId: group, contractId: contract, propertyId: propertyId, propertyVersion: propertyVersion}, function(res) {
       $scope.propertyRules = res.data.rules;
-  
+
       for (key in $scope.options) {
         // find the index of the subobject in the propertyRules collection matching our key
         var index = $scope.propertyRules.behaviors.map(function(el) { return el.name; }).indexOf(key);
