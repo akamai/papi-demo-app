@@ -69,7 +69,7 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar', 'angular-
 
   // The PropertyRulesController expects properties called "group" and "contract"
   // and "propertyId" and "propertyVersion"
-  .controller('PropertyRulesController', ['$scope', '$routeParams', 'PropertyRules', function ($scope, $routeParams, PropertyRules) {
+  .controller('PropertyRulesController', ['$scope', '$routeParams', 'PropertyRules', '$log', function ($scope, $routeParams, PropertyRules, $log) {
     $scope.options = {
       caching: {
         behavior: [
@@ -93,11 +93,13 @@ angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar', 'angular-
     // since that's what the API expects
     $scope.propertyRules = PropertyRules.query({groupId: group, contractId: contract, propertyId: propertyId, propertyVersion: propertyVersion}, function(res) {
       $scope.propertyRules = res.data.rules;
+  
       for (key in $scope.options) {
         // find the index of the subobject in the propertyRules collection matching our key
         var index = $scope.propertyRules.behaviors.map(function(el) { return el.name; }).indexOf(key);
+
         // set a new selectOptions object in that subobject containing our new values
-        $scope.propertyRules.behaviors[index].selectOptions = $scope.options[key];
+        if(index != -1) $scope.propertyRules.behaviors[index].selectOptions = $scope.options[key];
       }
     });
 
