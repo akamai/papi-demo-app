@@ -13,7 +13,7 @@
 //See the License for the specific language governing permissions and
 //limitations under the License.
 
-angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar'])
+angular.module('app', ['ngRoute', 'ngResource', 'angular-loading-bar', 'angular-toArrayFilter'])
   // Services
 
   // We use the ngResource module, which makes it easy to interact with REST APIs
