@@ -22,7 +22,7 @@ var bodyParser = require('body-parser');
 var EdgeGrid =require('edgegrid');  
 var eg = new EdgeGrid({  
   path: __dirname + '/.edgerc',  
-  group: 'papi'  
+  section: 'papi'  
 });  
 var routes = require('./routes/index');
 var getGroups = require('./routes/groups');
